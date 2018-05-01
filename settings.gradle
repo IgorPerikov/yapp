@@ -1,0 +1,9 @@
+rootProject.name = 'yapp-parent'
+include 'yapp-gateway'
+include 'yapp-messaging'
+include 'yapp-social'
+include 'yapp-integration'
+include 'yapp-auth'
+include 'yapp-common'
+include 'yapp-search'
+
