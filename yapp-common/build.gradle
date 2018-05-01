@@ -1,3 +1,4 @@
 dependencies {
-
+    compile("org.testcontainers:testcontainers:${testcontainers_version}")
+    compile("org.testcontainers:postgresql:${testcontainers_version}")
 }
