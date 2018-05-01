@@ -18,25 +18,18 @@ import io.ktor.features.ContentNegotiation
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.jackson.jackson
-import io.ktor.locations.Location
 import io.ktor.response.respond
 import io.ktor.routing.Routing
 import io.ktor.routing.method
 import io.ktor.routing.param
 import io.ktor.routing.route
-import kotlinx.coroutines.experimental.newFixedThreadPoolContext
-import kotlinx.coroutines.experimental.withContext
 import org.apache.http.entity.ContentType
 import org.slf4j.event.Level
-
-@Location("/list/{name}/page/{page}")
-data class DadJokeSender(val from: Int, val to: Int, val from_logical_id: Int)
 
 val messagingUrl = System.getenv("YAPP_MESSAGING_URL") ?: "localhost:8081"
 val client = HttpClient(Apache) {
     install(JsonFeature)
 }
-val pool = newFixedThreadPoolContext(5, "dad-jokes-pool")
 
 fun Application.main() {
     install(CallLogging) {
@@ -54,28 +47,26 @@ fun Application.main() {
                     param("to") {
                         param("from_logical_id") {
                             handle {
-                                withContext(pool) {
-                                    val joke = client.get<String> {
-                                        url("https://icanhazdadjoke.com/")
-                                        header("User-Agent", "https://github.com/IgorPerikov/yapp")
-                                        header("Accept", ContentType.TEXT_PLAIN.mimeType)
-                                    }
-                                    val from = call.request.queryParameters["from"] ?: throw IllegalArgumentException()
-                                    val to = call.request.queryParameters["to"] ?: throw IllegalArgumentException()
-                                    val fromLogicalId = call.request.queryParameters["from_logical_id"]
-                                            ?: throw IllegalArgumentException()
-                                    client.post<Any> {
-                                        url("http://$messagingUrl/messages")
-                                        header("Content-Type", ContentType.APPLICATION_JSON.mimeType)
-                                        body = MessageInput(
-                                            joke,
-                                            from.toInt(),
-                                            to.toInt(),
-                                            fromLogicalId.toInt()
-                                        )
-                                    }
-                                    call.respond(HttpStatusCode.Created)
+                                val joke = client.get<String> {
+                                    url("https://icanhazdadjoke.com/")
+                                    header("User-Agent", "https://github.com/IgorPerikov/yapp")
+                                    header("Accept", ContentType.TEXT_PLAIN.mimeType)
                                 }
+                                val from = call.request.queryParameters["from"] ?: throw IllegalArgumentException()
+                                val to = call.request.queryParameters["to"] ?: throw IllegalArgumentException()
+                                val fromLogicalId = call.request.queryParameters["from_logical_id"]
+                                        ?: throw IllegalArgumentException()
+                                client.post<Any> {
+                                    url("http://$messagingUrl/messages")
+                                    header("Content-Type", ContentType.APPLICATION_JSON.mimeType)
+                                    body = MessageInput(
+                                        joke,
+                                        from.toInt(),
+                                        to.toInt(),
+                                        fromLogicalId.toInt()
+                                    )
+                                }
+                                call.respond(HttpStatusCode.Created)
                             }
                         }
                     }
