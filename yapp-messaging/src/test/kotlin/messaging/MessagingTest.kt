@@ -1,6 +1,6 @@
 package messaging
 
-import messaging.domain.MessageInput
+import domain.MessageInput
 import messaging.service.MessagingService
 import org.junit.Assert.assertEquals
 import org.junit.ClassRule
@@ -33,7 +33,7 @@ class MessagingTest {
         messagingService.sendMessage(msg1)
         val messages = messagingService.getMessagesSince(msgFrom, msgTo, 0, 10)
         assertEquals(1, messages.size)
-        val (text, from, to, date, fromLogicalId) = messages[0]
+        val (text, from, to, _, fromLogicalId) = messages[0]
         assertEquals(text, msg1.text)
         assertEquals(from, msg1.from)
         assertEquals(to, msg1.to)

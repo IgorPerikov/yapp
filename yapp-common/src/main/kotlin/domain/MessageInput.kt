@@ -1,9 +1,8 @@
 package domain
 
-import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class MessageInput @JsonCreator constructor(
+data class MessageInput(
     val text: String,
     val from: Int,
     val to: Int,

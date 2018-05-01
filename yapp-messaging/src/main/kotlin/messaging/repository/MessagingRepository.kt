@@ -53,6 +53,7 @@ class MessagingRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) 
         )
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun toMessage(rs: ResultSet, rowNum: Int): MessageOutput {
         return MessageOutput(
             rs.getString("text"),
