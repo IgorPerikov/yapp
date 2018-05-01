@@ -1,8 +1,8 @@
 package messaging.controller
 
+import domain.MessageInput
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
-import messaging.domain.MessageInput
 import messaging.domain.MessageOutput
 import messaging.service.MessagingService
 import org.springframework.web.bind.annotation.*

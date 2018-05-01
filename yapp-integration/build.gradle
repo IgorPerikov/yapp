@@ -1,3 +1,25 @@
+apply plugin: 'application'
+
+repositories {
+    maven { url "http://kotlin.bintray.com/ktor" }
+}
+
+mainClassName = 'io.ktor.server.netty.DevelopmentEngine'
+
+ext {
+    logback_version = '1.2.3'
+}
+
 dependencies {
     compile project(':yapp-common')
+
+    compile ("ch.qos.logback:logback-classic:$logback_version")
+
+    compile ("io.ktor:ktor-server-netty:$ktor_version")
+    compile ("io.ktor:ktor-locations:$ktor_version")
+    compile ("io.ktor:ktor-jackson:$ktor_version")
+
+    compile ("io.ktor:ktor-client-core:$ktor_version")
+    compile ("io.ktor:ktor-client-apache:$ktor_version")
+    compile ("io.ktor:ktor-client-json:$ktor_version")
 }

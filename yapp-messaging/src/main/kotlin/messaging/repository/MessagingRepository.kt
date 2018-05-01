@@ -1,6 +1,6 @@
 package messaging.repository
 
-import messaging.domain.MessageInput
+import domain.MessageInput
 import messaging.domain.MessageOutput
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate

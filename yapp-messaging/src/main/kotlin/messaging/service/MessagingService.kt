@@ -1,6 +1,6 @@
 package messaging.service
 
-import messaging.domain.MessageInput
+import domain.MessageInput
 import messaging.domain.MessageOutput
 import messaging.repository.MessagingRepository
 import org.springframework.stereotype.Service
