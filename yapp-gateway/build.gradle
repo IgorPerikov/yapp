@@ -1,3 +1,46 @@
+buildscript {
+    ext {
+        spring_boot_version = '2.0.1.RELEASE'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}")
+    }
+}
+
+apply plugin: 'kotlin-spring'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/milestone" }
+}
+
+
+ext {
+    springCloudVersion = 'Finchley.RC1'
+}
+
 dependencies {
+    compile('org.springframework.boot:spring-boot-starter-webflux')
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-hystrix')
+    compile('org.springframework.cloud:spring-cloud-starter-gateway')
+    compile('com.fasterxml.jackson.module:jackson-module-kotlin')
+    compile("org.jetbrains.kotlin:kotlin-reflect")
+
     compile project(':yapp-common')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
