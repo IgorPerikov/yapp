@@ -31,7 +31,9 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-webflux')
     compile('org.springframework.cloud:spring-cloud-starter-netflix-hystrix')
     compile('org.springframework.cloud:spring-cloud-starter-gateway')
-    compile('com.fasterxml.jackson.module:jackson-module-kotlin')
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin") {
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-reflect'
+    }
     compile("org.jetbrains.kotlin:kotlin-reflect")
 
     compile project(':yapp-common')

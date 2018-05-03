@@ -30,7 +30,9 @@ dependencies {
     }
     compile('org.springframework.boot:spring-boot-starter-jdbc')
     compile('org.springframework.boot:spring-boot-starter-jetty')
-    compile('com.fasterxml.jackson.module:jackson-module-kotlin')
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin") {
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-reflect'
+    }
     compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
     compile('org.flywaydb:flyway-core')
     compile("org.jetbrains.kotlin:kotlin-reflect")

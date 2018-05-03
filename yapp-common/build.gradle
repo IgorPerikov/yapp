@@ -1,6 +1,8 @@
 dependencies {
     compile("com.fasterxml.jackson.core:jackson-annotations:${jackson_version}")
-    compile("com.fasterxml.jackson.module:jackson-module-kotlin:${jackson_version}")
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin:${jackson_version}") {
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-reflect'
+    }
 
     compile("org.testcontainers:testcontainers:${testcontainers_version}")
     compile("org.testcontainers:postgresql:${testcontainers_version}")
