@@ -9,7 +9,6 @@ import java.util.*
 
 object JwtUtils {
     private const val ISSUER = "yapp-auth-application"
-    const val YAPP_ID_CLAIM_NAME = "yapp-user-id"
 
     private val hmacSecret = System.getenv("HMAC_SECRET") ?: "this_is_default_hmac_secret"
     private val algorithm = Algorithm.HMAC256(hmacSecret)

@@ -22,6 +22,8 @@ import org.slf4j.event.Level
 private const val JWT_AUTH = "jwt"
 private const val BASIC_AUTH = "basic"
 
+const val YAPP_ID_CLAIM_NAME = "yapp-user-id"
+
 fun Application.main() {
     DbUtils.init()
     install(CallLogging) {
@@ -69,7 +71,7 @@ fun Application.main() {
         authenticate(JWT_AUTH) {
             post("/jwt-token-verifier") {
                 val jwtPrincipal = call.authentication.principal as JWTPrincipal
-                val userId = jwtPrincipal.payload.getClaim(JwtUtils.YAPP_ID_CLAIM_NAME).asInt().toString()
+                val userId = jwtPrincipal.payload.getClaim(YAPP_ID_CLAIM_NAME).asInt().toString()
                 call.respond(UserInfo(userId))
             }
         }
