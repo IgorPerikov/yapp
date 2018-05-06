@@ -25,6 +25,10 @@ subprojects {
         testcontainers_version = '1.7.2'
         ktor_version = '0.9.2'
         jackson_version = '2.9.0'
+        logback_version = '1.2.3'
+        exposed_version = '0.10.2'
+        postgres_version = '42.2.2'
+        hikari_cp_version = '2.7.8'
     }
 
     dependencies {

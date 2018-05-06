@@ -6,10 +6,6 @@ repositories {
 
 mainClassName = 'io.ktor.server.netty.DevelopmentEngine'
 
-ext {
-    logback_version = '1.2.3'
-}
-
 dependencies {
     compile project(':yapp-common')
 
