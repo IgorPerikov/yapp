@@ -2,6 +2,7 @@
 
 package auth
 
+import domain.UserInfo
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -79,5 +80,4 @@ fun Application.main() {
 }
 
 data class JwtToken(val token: String)
-data class UserInfo(val id: String)
 data class Error(val message: String)
