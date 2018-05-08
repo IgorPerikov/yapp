@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class MessagingService(private val messagingRepository: MessagingRepository) {
-    fun sendMessage(msg: MessageInput) {
-        messagingRepository.save(msg)
+    fun sendMessage(msg: MessageInput, from: Int) {
+        messagingRepository.save(msg, from)
     }
 
     fun getMessagesSince(from: Int, to: Int, after: Int, limit: Int): List<MessageOutput> {

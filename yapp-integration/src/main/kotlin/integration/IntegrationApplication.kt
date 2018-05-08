@@ -3,6 +3,7 @@
 package integration
 
 import domain.MessageInput
+import domain.USER_ID_HEADER_NAME
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -18,6 +19,7 @@ import io.ktor.features.ContentNegotiation
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.jackson.jackson
+import io.ktor.request.header
 import io.ktor.response.respond
 import io.ktor.routing.*
 import kotlinx.coroutines.experimental.newFixedThreadPoolContext
@@ -43,11 +45,9 @@ fun Application.main() {
     routing {
         route("/dad-jokes-sender") {
             method(HttpMethod.Post) {
-                param("from") {
-                    param("to") {
-                        param("from_logical_id") {
-                            sendDadJoke()
-                        }
+                param("to") {
+                    param("from_logical_id") {
+                        sendDadJoke()
                     }
                 }
             }
@@ -63,15 +63,15 @@ fun Route.sendDadJoke() {
                 header("User-Agent", "https://github.com/IgorPerikov/yapp")
                 header("Accept", ContentType.TEXT_PLAIN.mimeType)
             }
-            val from = call.request.queryParameters["from"] ?: throw IllegalArgumentException()
             val to = call.request.queryParameters["to"] ?: throw IllegalArgumentException()
+            val from = call.request.header(USER_ID_HEADER_NAME) ?: throw IllegalArgumentException()
             val fromLogicalId = call.request.queryParameters["from_logical_id"] ?: throw IllegalArgumentException()
             client.post<Any> {
                 url("http://$messagingUrl/messages")
                 header("Content-Type", ContentType.APPLICATION_JSON.mimeType)
+                header(USER_ID_HEADER_NAME, from)
                 body = MessageInput(
                     joke,
-                    from.toInt(),
                     to.toInt(),
                     fromLogicalId.toInt()
                 )

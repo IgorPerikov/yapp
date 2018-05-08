@@ -9,13 +9,13 @@ import java.sql.ResultSet
 
 @Repository
 class MessagingRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
-    fun save(msg: MessageInput) {
+    fun save(msg: MessageInput, from: Int) {
         jdbcTemplate.update(
             "INSERT INTO messages(text, \"from\", \"to\", from_logical_id) " +
                     "VALUES (:text, :from, :to, :from_logical_id)",
             MapSqlParameterSource()
                 .addValue("text", msg.text)
-                .addValue("from", msg.from)
+                .addValue("from", from)
                 .addValue("to", msg.to)
                 .addValue("from_logical_id", msg.fromLogicalId)
         )
