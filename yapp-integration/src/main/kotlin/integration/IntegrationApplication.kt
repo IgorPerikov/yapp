@@ -46,9 +46,7 @@ fun Application.main() {
         route("/dad-jokes-sender") {
             method(HttpMethod.Post) {
                 param("to") {
-                    param("from_logical_id") {
-                        sendDadJoke()
-                    }
+                    sendDadJoke()
                 }
             }
         }
@@ -65,15 +63,13 @@ fun Route.sendDadJoke() {
             }
             val to = call.request.queryParameters["to"] ?: throw IllegalArgumentException()
             val from = call.request.header(USER_ID_HEADER_NAME) ?: throw IllegalArgumentException()
-            val fromLogicalId = call.request.queryParameters["from_logical_id"] ?: throw IllegalArgumentException()
             client.post<Any> {
                 url("http://$messagingUrl/messages")
                 header("Content-Type", ContentType.APPLICATION_JSON.mimeType)
                 header(USER_ID_HEADER_NAME, from)
                 body = MessageInput(
                     joke,
-                    to.toInt(),
-                    fromLogicalId.toInt()
+                    to.toInt()
                 )
             }
             call.respond(HttpStatusCode.Created)

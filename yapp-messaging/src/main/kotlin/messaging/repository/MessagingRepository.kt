@@ -11,30 +11,12 @@ import java.sql.ResultSet
 class MessagingRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
     fun save(msg: MessageInput, from: Int) {
         jdbcTemplate.update(
-            "INSERT INTO messages(text, \"from\", \"to\", from_logical_id) " +
-                    "VALUES (:text, :from, :to, :from_logical_id)",
+            "INSERT INTO messages(text, \"from\", \"to\") " +
+                    "VALUES (:text, :from, :to)",
             MapSqlParameterSource()
                 .addValue("text", msg.text)
                 .addValue("from", from)
                 .addValue("to", msg.to)
-                .addValue("from_logical_id", msg.fromLogicalId)
-        )
-    }
-
-    fun getMessagesSince(from: Int, to: Int, after: Int, limit: Int): List<MessageOutput> {
-        return jdbcTemplate.query(
-            "SELECT * FROM messages " +
-                    "WHERE \"from\" = :from " +
-                    "AND \"to\" = :to " +
-                    "AND from_logical_id > :after " +
-                    "ORDER BY id ASC " +
-                    "LIMIT :limit",
-            MapSqlParameterSource()
-                .addValue("from", from)
-                .addValue("to", to)
-                .addValue("after", after)
-                .addValue("limit", limit),
-            ::toMessage
         )
     }
 
@@ -59,8 +41,7 @@ class MessagingRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) 
             rs.getString("text"),
             rs.getInt("from"),
             rs.getInt("to"),
-            rs.getTimestamp("date").toInstant(),
-            rs.getInt("from_logical_id")
+            rs.getTimestamp("date").toInstant()
         )
     }
 }

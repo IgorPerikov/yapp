@@ -24,32 +24,15 @@ class MessagingTest {
     private lateinit var messagingService: MessagingService
 
     @Test
-    fun shouldReturnMessagesAfterRequested() {
-        val msgFrom = 1
-        val msgTo = 2
-        val msg0 = MessageInput(text = "text0", from = msgFrom, to = msgTo, fromLogicalId = 0)
-        val msg1 = MessageInput(text = "text1", from = msgFrom, to = msgTo, fromLogicalId = 1)
-        messagingService.sendMessage(msg0)
-        messagingService.sendMessage(msg1)
-        val messages = messagingService.getMessagesSince(msgFrom, msgTo, 0, 10)
-        assertEquals(1, messages.size)
-        val (text, from, to, _, fromLogicalId) = messages[0]
-        assertEquals(text, msg1.text)
-        assertEquals(from, msg1.from)
-        assertEquals(to, msg1.to)
-        assertEquals(fromLogicalId, msg1.fromLogicalId)
-    }
-
-    @Test
     fun shouldReturnLastMessages() {
         val msgFrom = 10
         val msgTo = 11
-        val msg0 = MessageInput(text = "text0", from = msgFrom, to = msgTo, fromLogicalId = 0)
-        val msg1 = MessageInput(text = "text1", from = msgFrom, to = msgTo, fromLogicalId = 1)
-        val msg2 = MessageInput(text = "text2", from = msgFrom, to = msgTo, fromLogicalId = 1)
-        messagingService.sendMessage(msg0)
-        messagingService.sendMessage(msg1)
-        messagingService.sendMessage(msg2)
+        val msg0 = MessageInput("text0", msgTo)
+        val msg1 = MessageInput("text1", msgTo)
+        val msg2 = MessageInput("text2", msgTo)
+        messagingService.sendMessage(msg0, msgFrom)
+        messagingService.sendMessage(msg1, msgFrom)
+        messagingService.sendMessage(msg2, msgFrom)
         val messages = messagingService.getLatestMessages(msgFrom, msgTo, 5)
         assertEquals(3, messages.size)
         assertEquals(messages[2].text, msg0.text)
