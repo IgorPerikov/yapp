@@ -23,8 +23,7 @@ class MessagingRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) 
     fun getLatestMessages(from: Int, to: Int, limit: Int): List<MessageOutput> {
         return jdbcTemplate.query(
             "SELECT * FROM messages " +
-                    "WHERE \"from\" = :from " +
-                    "AND \"to\" = :to " +
+                    "WHERE (\"from\" = :from AND \"to\" = :to) OR (\"from\" = :to AND \"to\" = :from)" +
                     "ORDER BY id DESC " +
                     "LIMIT :limit",
             MapSqlParameterSource()
