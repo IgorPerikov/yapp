@@ -1,4 +1,5 @@
 #!/bin/bash
+../gradlew build
 export NAME=igorperikov
 export IMAGE=yapp-integration
 docker build -t $NAME/$IMAGE:latest .
