@@ -1,5 +1,6 @@
 package gateway
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cloud.gateway.route.RouteLocator
@@ -11,9 +12,14 @@ import org.springframework.web.client.RestTemplate
 
 @SpringBootApplication
 class GatewayApplication {
-    private val messagingUri = "http://localhost:8081"
-    private val integrationUri = "http://localhost:8082"
-    private val authUri = "http://localhost:8083"
+    @Value("\${messaging.uri}")
+    private lateinit var messagingUri: String
+
+    @Value("\${integration.uri}")
+    private lateinit var integrationUri: String
+
+    @Value("\${auth.uri}")
+    private lateinit var authUri: String
 
     @Bean
     fun routeLocator(builder: RouteLocatorBuilder, authGatewayFilter: AuthGatewayFilter): RouteLocator {

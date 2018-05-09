@@ -1,0 +1,9 @@
+minikube start --cpus 1 --memory 5000
+
+watch kubectl get svc,pod,deployment
+
+kubectl create -f k8s/postgresql-deployment.yaml
+kubectl create -f k8s/gateway-deployment.yaml
+kubectl create -f k8s/messaging-deployment.yaml
+kubectl create -f k8s/auth-deployment.yaml
+kubectl create -f k8s/integration-deployment.yaml

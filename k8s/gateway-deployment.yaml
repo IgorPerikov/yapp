@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yapp-gateway
+spec:
+  selector:
+    matchLabels:
+      app: yapp-gateway
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: yapp-gateway
+    spec:
+      containers:
+      - name: yapp-gateway
+        image: igorperikov/yapp-gateway:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: yapp-gateway-service
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: yapp-gateway
+  type: NodePort
