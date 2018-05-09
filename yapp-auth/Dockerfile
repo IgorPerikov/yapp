@@ -1,8 +1,3 @@
-FROM openjdk:8u151-jdk-alpine AS BUILD_IMAGE
-WORKDIR /
-COPY . /
-RUN ./../gradlew build
-
 FROM openjdk:8u151-jre-alpine
 COPY --from=BUILD_IMAGE /build/libs/yapp-auth.jar .
 EXPOSE 8083
