@@ -1,0 +1,12 @@
+services:
+  - docker
+
+before_script:
+  - chmod a+x ./build.sh
+  - chmod a+x ./yapp-auth/build.sh
+  - chmod a+x ./yapp-gateway/build.sh
+  - chmod a+x ./yapp-integration/build.sh
+  - chmod a+x ./yapp-messaging/build.sh
+
+script:
+  - ./build.sh

@@ -1,10 +1,17 @@
 apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 repositories {
     maven { url "http://kotlin.bintray.com/ktor" }
 }
 
 mainClassName = 'io.ktor.server.netty.DevelopmentEngine'
+
+shadowJar {
+    baseName = 'yapp-auth'
+    classifier = null
+    version = null
+}
 
 repositories {
     maven { url "https://dl.bintray.com/kotlin/exposed" }
