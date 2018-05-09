@@ -1,6 +1,8 @@
 package domain
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 data class MessageInput(
-    val text: String,
-    val to: Int
+    @JsonProperty("text") val text: String,
+    @JsonProperty("to") val to: Int
 )

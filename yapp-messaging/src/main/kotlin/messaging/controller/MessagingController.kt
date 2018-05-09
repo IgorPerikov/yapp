@@ -6,13 +6,18 @@ import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
 import messaging.domain.MessageOutput
 import messaging.service.MessagingService
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
 class MessagingController(private val messagingService: MessagingService) {
-    @ApiOperation("Send a new message")
+    @ApiOperation("Sends a new message")
     @PostMapping("/messages")
-    fun sendMessage(@RequestHeader(USER_ID_HEADER_NAME) from: Int, @RequestBody msg: MessageInput) {
+    @ResponseStatus(HttpStatus.CREATED)
+    fun sendMessage(
+        @RequestHeader(USER_ID_HEADER_NAME) from: Int,
+        @RequestBody msg: MessageInput
+    ) {
         messagingService.sendMessage(msg, from)
     }
 
