@@ -28,4 +28,4 @@ spec:
     targetPort: 8082
   selector:
     app: yapp-integration
-  type: NodePort
+  clusterIP: None

@@ -31,4 +31,4 @@ spec:
     targetPort: 8081
   selector:
     app: yapp-messaging
-  type: NodePort
+  clusterIP: None

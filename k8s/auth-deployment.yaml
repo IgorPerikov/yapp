@@ -31,4 +31,4 @@ spec:
     targetPort: 8083
   selector:
     app: yapp-auth
-  type: NodePort
+  clusterIP: None

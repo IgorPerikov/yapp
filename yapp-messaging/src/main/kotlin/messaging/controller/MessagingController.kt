@@ -8,22 +8,16 @@ import messaging.domain.MessageOutput
 import messaging.service.MessagingService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import java.net.InetAddress
-import javax.servlet.http.HttpServletResponse
 
 @RestController
 class MessagingController(private val messagingService: MessagingService) {
-    private val hostname = InetAddress.getLocalHost().hostName
-
     @ApiOperation("Sends a new message")
     @PostMapping("/messages")
     @ResponseStatus(HttpStatus.CREATED)
     fun sendMessage(
         @RequestHeader(USER_ID_HEADER_NAME) sender: Int,
-        @RequestBody msg: MessageInput,
-        response: HttpServletResponse
+        @RequestBody msg: MessageInput
     ) {
-        response.setHeader("X-Hostname", hostname)
         messagingService.sendMessage(msg, sender)
     }
 

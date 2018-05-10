@@ -15,6 +15,13 @@ spec:
       containers:
       - name: yapp-gateway
         image: igorperikov/yapp-gateway:latest
+        env:
+        - name: MESSAGING_URI
+          value: http://yapp-messaging-service:8081
+        - name: AUTH_URI
+          value: http://yapp-auth-service:8083
+        - name: INTEGRATION_URI
+          value: http://yapp-integration-service:8082
         ports:
         - containerPort: 8080
 ---
