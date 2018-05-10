@@ -15,10 +15,10 @@ class MessagingController(private val messagingService: MessagingService) {
     @PostMapping("/messages")
     @ResponseStatus(HttpStatus.CREATED)
     fun sendMessage(
-        @RequestHeader(USER_ID_HEADER_NAME) from: Int,
+        @RequestHeader(USER_ID_HEADER_NAME) sender: Int,
         @RequestBody msg: MessageInput
     ) {
-        messagingService.sendMessage(msg, from)
+        messagingService.sendMessage(msg, sender)
     }
 
     @ApiOperation("Returns `limit` latest messages in the chat")

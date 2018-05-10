@@ -9,26 +9,26 @@ import java.sql.ResultSet
 
 @Repository
 class MessagingRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
-    fun save(msg: MessageInput, from: Int) {
+    fun save(msg: MessageInput, sender: Int) {
         jdbcTemplate.update(
             "INSERT INTO messages(text, \"from\", \"to\") " +
                     "VALUES (:text, :from, :to)",
             MapSqlParameterSource()
                 .addValue("text", msg.text)
-                .addValue("from", from)
+                .addValue("from", sender)
                 .addValue("to", msg.to)
         )
     }
 
-    fun getLatestMessages(from: Int, to: Int, limit: Int): List<MessageOutput> {
+    fun getLatestMessages(user1: Int, user2: Int, limit: Int): List<MessageOutput> {
         return jdbcTemplate.query(
             "SELECT * FROM messages " +
                     "WHERE (\"from\" = :from AND \"to\" = :to) OR (\"from\" = :to AND \"to\" = :from)" +
                     "ORDER BY id DESC " +
                     "LIMIT :limit",
             MapSqlParameterSource()
-                .addValue("from", from)
-                .addValue("to", to)
+                .addValue("from", user1)
+                .addValue("to", user2)
                 .addValue("limit", limit),
             ::toMessage
         )
