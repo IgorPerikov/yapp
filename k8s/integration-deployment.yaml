@@ -15,6 +15,9 @@ spec:
       containers:
       - name: yapp-integration
         image: igorperikov/yapp-integration:latest
+        env:
+        - name: YAPP_MESSAGING_URL
+          value: http://yapp-messaging-service:8081
         ports:
         - containerPort: 8082
 ---
