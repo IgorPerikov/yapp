@@ -38,17 +38,17 @@ class GatewayApplication {
     }
 
     @Bean
-    fun restTemplate(): RestTemplate {
-        val factory = HttpComponentsClientHttpRequestFactory()
-        factory.setConnectTimeout(200)
-        factory.setReadTimeout(500)
-        return RestTemplate(factory)
-    }
+    fun restTemplate() = HttpComponentsClientHttpRequestFactory()
+        .also {
+            it.setConnectTimeout(100)
+            it.setReadTimeout(300)
+        }
+        .let {
+            RestTemplate(it)
+        }
 
     @Bean
-    fun authGatewayFilter(restTemplate: RestTemplate): AuthGatewayFilter {
-        return AuthGatewayFilter(restTemplate, authUri)
-    }
+    fun authGatewayFilter(restTemplate: RestTemplate) = AuthGatewayFilter(restTemplate, authUri)
 }
 
 fun main(args: Array<String>) {

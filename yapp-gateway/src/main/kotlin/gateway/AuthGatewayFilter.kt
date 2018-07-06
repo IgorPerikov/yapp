@@ -24,9 +24,9 @@ class AuthGatewayFilter(
 
     override fun filter(exchange: ServerWebExchange, chain: GatewayFilterChain): Mono<Void> {
         val authHeader = exchange.request.headers["Authorization"] ?: return rejectRequest(exchange)
-        val headers = HttpHeaders()
-        headers["Authorization"] = authHeader
-        val httpEntity = HttpEntity<Nothing>(headers)
+        val httpEntity = HttpHeaders()
+            .also { it["Authorization"] = authHeader }
+            .let { HttpEntity<Nothing>(it) }
         try {
             val userInfo =
                 restTemplate.exchange<UserInfo>("$authUri/jwt-token-verifier", HttpMethod.POST, httpEntity).body
@@ -43,8 +43,6 @@ class AuthGatewayFilter(
         }
     }
 
-    private fun rejectRequest(exchange: ServerWebExchange): Mono<Void> {
-        exchange.response.statusCode = HttpStatus.UNAUTHORIZED
-        return Mono.empty()
-    }
+    private fun rejectRequest(exchange: ServerWebExchange) =
+        Mono.empty<Void>().apply { exchange.response.statusCode = HttpStatus.UNAUTHORIZED }
 }

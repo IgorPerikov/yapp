@@ -25,10 +25,8 @@ class MessagingApplication {
     }
 
     @Bean
-    fun objectMapper(): ObjectMapper {
-        return ObjectMapper().apply {
-            this.registerModule(com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
-        }
+    fun objectMapper() = ObjectMapper().also {
+        it.registerModule(com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
     }
 }
 

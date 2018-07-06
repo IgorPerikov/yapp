@@ -10,7 +10,5 @@ object SecLists {
             .forEach { weakPasswords.add(it) }
     }
 
-    fun isWeak(password: String): Boolean {
-        return weakPasswords.contains(password)
-    }
+    fun isWeak(password: String) = weakPasswords.contains(password)
 }

@@ -12,11 +12,7 @@ object BasicAuthUtils {
     private val passwordSalt = System.getenv("PASSWORD_SALT") ?: "this_is_default_password_salt"
     private val digestFunction = getDigestFunction("SHA-256", passwordSalt)
 
-    fun isUsernameAlreadyTaken(name: String): Boolean {
-        return transaction {
-            !UserEntity.find { UsersTable.username eq name }.empty()
-        }
-    }
+    fun isUsernameAlreadyTaken(name: String) = transaction { !UserEntity.find { UsersTable.username eq name }.empty() }
 
     fun authenticateByPassword(credential: UserPasswordCredential): Principal? {
         val hashedPassword = hashAndEncodePassword(credential.password)
@@ -29,14 +25,8 @@ object BasicAuthUtils {
                 find.first().id.value
             }
         }
-        return if (userId == null) {
-            null
-        } else {
-            UserIdPrincipal(userId.toString())
-        }
+        return userId?.let { UserIdPrincipal(it.toString()) }
     }
 
-    fun hashAndEncodePassword(password: String): String {
-        return encodeBase64(digestFunction.invoke(password))
-    }
+    fun hashAndEncodePassword(password: String) = encodeBase64(digestFunction.invoke(password))
 }
